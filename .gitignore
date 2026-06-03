@@ -1,0 +1,31 @@
+# secrets
+.env
+.env.local
+.env.*.local
+
+# data (large CSV, don't commit)
+data/
+*.csv
+
+# logs
+logs/
+*.log
+
+# node
+node_modules/
+.next/
+out/
+dist/
+build/
+*.tsbuildinfo
+
+# python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# editor / OS
+.vscode/
+.idea/
+.DS_Store
