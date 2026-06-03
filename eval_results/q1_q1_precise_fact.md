@@ -17,13 +17,13 @@
 ### gpt-5-mini response
 
 ```
-Title: A Marketing Guide for Introverts
+Title: "A Marketing Guide for Introverts"
 Author: Shaunta Grimes
 
-This article reframes marketing as “just a conversation between you and your readers” (chunk [1]) and is explicitly aimed at writers who are introverts, noting “Writing is such solitary, interior work that it tends to attract introverts” (chunk [2]).
+I say this because the article states "Marketing is just a conversation between you and your readers," and frames advice specifically for introverted writers who find self-promotion uncomfortable (see the article metadata and chunks describing introverts and marketing).
 ```
 
-**Tokens:** {'completion_tokens': 656, 'prompt_tokens': 2240, 'total_tokens': 2896, 'completion_tokens_details': {'accepted_prediction_tokens': 0, 'audio_tokens': 0, 'reasoning_tokens': 576, 'rejected_prediction_tokens': 0}, 'prompt_tokens_details': {'audio_tokens': 0, 'cached_tokens': 0}, 'latency_checkpoint': {'engine_tbt_ms': 11, 'engine_ttft_ms': 87, 'engine_ttlt_ms': 7374, 'pre_inference_ms': 262, 'service_tbt_ms': 11, 'service_ttft_ms': 795, 'service_ttlt_ms': 8020, 'total_duration_ms': 7774, 'user_visible_ttft_ms': 534}}
+**Tokens:** {'completion_tokens': 649, 'prompt_tokens': 2240, 'total_tokens': 2889, 'completion_tokens_details': {'accepted_prediction_tokens': 0, 'audio_tokens': 0, 'reasoning_tokens': 576, 'rejected_prediction_tokens': 0}, 'prompt_tokens_details': {'audio_tokens': 0, 'cached_tokens': 2176}, 'latency_checkpoint': {'engine_tbt_ms': 15, 'engine_ttft_ms': 54, 'engine_ttlt_ms': 10572, 'pre_inference_ms': 140, 'service_tbt_ms': 15, 'service_ttft_ms': 610, 'service_ttlt_ms': 11080, 'total_duration_ms': 10951, 'user_visible_ttft_ms': 470}}
 
 ## Config B - B (chunk=1024, overlap=0.20)
 
@@ -31,17 +31,58 @@ This article reframes marketing as “just a conversation between you and your r
 
 | rank | score | article_id | title |
 |---|---|---|---|
-| 1 | 0.6336 | 37 | A Marketing Guide for Introverts |
-| 2 | 0.5380 | 22 | Don’t Be a Writer, Be an Entrepreneur Who Writes |
-| 3 | 0.5283 | 25 | Your Brand is What People Expect From You |
-| 4 | 0.5149 | 111 | How to Silence the Haters in Your Head as You Write |
+| 1 | 0.6331 | 37 | A Marketing Guide for Introverts |
+| 2 | 0.5378 | 22 | Don’t Be a Writer, Be an Entrepreneur Who Writes |
+| 3 | 0.5281 | 25 | Your Brand is What People Expect From You |
+| 4 | 0.5147 | 111 | How to Silence the Haters in Your Head as You Write |
 
 ### gpt-5-mini response
 
 ```
-"A Marketing Guide for Introverts" — Shaunta Grimes.
+Title: "A Marketing Guide for Introverts"
+Author: Shaunta Grimes
 
-This article is aimed at introverted writers and reframes marketing as a gentle, reader-focused activity: it tells you to "think for a minute about how someone who has written a book like yours could reach you" and argues "marketing...is more like a Post-it note" rather than a sledgehammer (chunks [1], [2]).
+I identify this from the article text that addresses introverted writers and reframes marketing—“The reason why marketing gets a bad rap is because so many people use it like a sledgehammer, when really, it’s more like a Post‑it note”—and opens by defining introverts and their discomfort with marketing (“Marketing. Ugh.”).
 ```
 
-**Tokens:** {'completion_tokens': 605, 'prompt_tokens': 2243, 'total_tokens': 2848, 'completion_tokens_details': {'accepted_prediction_tokens': 0, 'audio_tokens': 0, 'reasoning_tokens': 512, 'rejected_prediction_tokens': 0}, 'prompt_tokens_details': {'audio_tokens': 0, 'cached_tokens': 0}, 'latency_checkpoint': {'engine_tbt_ms': 12, 'engine_ttft_ms': 73, 'engine_ttlt_ms': 8365, 'pre_inference_ms': 190, 'service_tbt_ms': 12, 'service_ttft_ms': 672, 'service_ttlt_ms': 8943, 'total_duration_ms': 8759, 'user_visible_ttft_ms': 481}}
+**Tokens:** {'completion_tokens': 737, 'prompt_tokens': 2243, 'total_tokens': 2980, 'completion_tokens_details': {'accepted_prediction_tokens': 0, 'audio_tokens': 0, 'reasoning_tokens': 640, 'rejected_prediction_tokens': 0}, 'prompt_tokens_details': {'audio_tokens': 0, 'cached_tokens': 0}, 'latency_checkpoint': {'engine_tbt_ms': 12, 'engine_ttft_ms': 81, 'engine_ttlt_ms': 9501, 'pre_inference_ms': 182, 'service_tbt_ms': 12, 'service_ttft_ms': 1141, 'service_ttlt_ms': 10557, 'total_duration_ms': 10391, 'user_visible_ttft_ms': 958}}
+
+## Config C - C (chunk=256, overlap=0.10)
+
+### Retrieved articles (deduped on article_id, top 5)
+
+| rank | score | article_id | title |
+|---|---|---|---|
+| 1 | 0.6017 | 37 | A Marketing Guide for Introverts |
+
+### gpt-5-mini response
+
+```
+Title: "A Marketing Guide for Introverts"
+Author: Shaunta Grimes
+
+This article explicitly reframes marketing as "a conversation between you and your readers" and addresses introverted writers who find self-promotion uncomfortable (see article chunks stating that marketing is just a conversation and discussing introverts' discomfort with marketing).
+```
+
+**Tokens:** {'completion_tokens': 778, 'prompt_tokens': 2248, 'total_tokens': 3026, 'completion_tokens_details': {'accepted_prediction_tokens': 0, 'audio_tokens': 0, 'reasoning_tokens': 704, 'rejected_prediction_tokens': 0}, 'prompt_tokens_details': {'audio_tokens': 0, 'cached_tokens': 0}, 'latency_checkpoint': {'engine_tbt_ms': 12, 'engine_ttft_ms': 78, 'engine_ttlt_ms': 9072, 'pre_inference_ms': 139, 'service_tbt_ms': 12, 'service_ttft_ms': 587, 'service_ttlt_ms': 9577, 'total_duration_ms': 9448, 'user_visible_ttft_ms': 448}}
+
+## Config D - D (chunk=1024, overlap=0.30)
+
+### Retrieved articles (deduped on article_id, top 5)
+
+| rank | score | article_id | title |
+|---|---|---|---|
+| 1 | 0.6336 | 37 | A Marketing Guide for Introverts |
+| 2 | 0.5550 | 22 | Don’t Be a Writer, Be an Entrepreneur Who Writes |
+| 3 | 0.5282 | 25 | Your Brand is What People Expect From You |
+| 4 | 0.5150 | 111 | How to Silence the Haters in Your Head as You Write |
+
+### gpt-5-mini response
+
+```
+A Marketing Guide for Introverts — Shaunta Grimes
+
+The article frames marketing as part of the writer’s job and as “being in conversation” with readers (e.g., “You should be blogging… You can be in conversation with them”), and explicitly addresses introverted writers uncomfortable with self-promotion (e.g., “An introvert is a person who recharges when they are alone” and discussion of marketing being hard for introverts).
+```
+
+**Tokens:** {'completion_tokens': 740, 'prompt_tokens': 2265, 'total_tokens': 3005, 'completion_tokens_details': {'accepted_prediction_tokens': 0, 'audio_tokens': 0, 'reasoning_tokens': 640, 'rejected_prediction_tokens': 0}, 'prompt_tokens_details': {'audio_tokens': 0, 'cached_tokens': 0}, 'latency_checkpoint': {'engine_tbt_ms': 12, 'engine_ttft_ms': 63, 'engine_ttlt_ms': 9183, 'pre_inference_ms': 175, 'service_tbt_ms': 12, 'service_ttft_ms': 663, 'service_ttlt_ms': 9735, 'total_duration_ms': 9578, 'user_visible_ttft_ms': 488}}

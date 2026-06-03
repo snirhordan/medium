@@ -61,7 +61,10 @@ ASSIGNMENT_EXAMPLES = [
 CONFIGS = {
     "A": {"namespace": "cfg-a", "label": "A (chunk=512, overlap=0.15)"},
     "B": {"namespace": "cfg-b", "label": "B (chunk=1024, overlap=0.20)"},
+    "C": {"namespace": "cfg-c", "label": "C (chunk=256, overlap=0.10)"},
+    "D": {"namespace": "cfg-d", "label": "D (chunk=1024, overlap=0.30)"},
 }
+CONFIG_ORDER = ("A", "B", "C", "D")
 
 TOP_K = int(os.environ.get("TOP_K", "8"))
 USAGE_LOG = Path("logs/eval_usage.jsonl")
@@ -160,11 +163,11 @@ def run_one(cfg_key: str, question: str) -> dict:
     }
 
 
-def render_side_by_side(label: str, qa: str, results: dict) -> None:
+def render_side_by_side(label: str, qa: str, results: dict, active_configs) -> None:
     print("=" * 100)
     print(f"{label}\n{qa}")
     print("=" * 100)
-    for cfg_key in ("A", "B"):
+    for cfg_key in active_configs:
         r = results[cfg_key]
         print(f"\n[ Config {cfg_key} - {CONFIGS[cfg_key]['label']} | top_k={TOP_K} ]")
         print(f"Retrieved articles (deduped on article_id, top 5 shown):")
@@ -184,8 +187,8 @@ def render_side_by_side(label: str, qa: str, results: dict) -> None:
     print()
 
 
-def write_markdown(idx: int, label: str, question: str, results: dict) -> Path:
-    """Write one markdown file per question with A vs B side-by-side."""
+def write_markdown(idx: int, label: str, question: str, results: dict, active_configs) -> Path:
+    """Write one markdown file per question with all evaluated configs side-by-side."""
     EVAL_DIR.mkdir(exist_ok=True)
     safe = label.replace(" ", "_").replace("/", "_").lower()
     path = EVAL_DIR / f"q{idx}_{safe}.md"
@@ -196,7 +199,7 @@ def write_markdown(idx: int, label: str, question: str, results: dict) -> Path:
     lines.append("")
     lines.append(f"**top_k:** {TOP_K}  |  **embedding:** `{os.environ['EMBEDDING_MODEL']}`  |  **chat:** `{os.environ['CHAT_MODEL']}`")
     lines.append("")
-    for cfg_key in ("A", "B"):
+    for cfg_key in active_configs:
         r = results[cfg_key]
         lines.append(f"## Config {cfg_key} - {CONFIGS[cfg_key]['label']}")
         lines.append("")
@@ -234,16 +237,17 @@ def main() -> int:
     print(f"[eval] embedding={os.environ['EMBEDDING_MODEL']}")
     print(f"[eval] chat={os.environ['CHAT_MODEL']}\n")
 
-    # sanity: confirm both namespaces actually have vectors
+    # sanity: confirm each namespace actually has vectors; skip those that are empty
+    active_configs = list(CONFIG_ORDER)
     try:
         stats = INDEX.describe_index_stats()
-        for cfg_key in ("A", "B"):
+        for cfg_key in CONFIG_ORDER:
             ns = CONFIGS[cfg_key]["namespace"]
             count = stats.get("namespaces", {}).get(ns, {}).get("vector_count", 0)
             print(f"[eval] namespace {ns}: {count} vectors")
             if count == 0:
-                print(f"[warn] namespace {ns} is empty - run "
-                      f"CONFIG={cfg_key} python chunk_and_embed.py first.")
+                print(f"[warn] namespace {ns} is empty - skipping config {cfg_key}.")
+                active_configs.remove(cfg_key)
     except Exception as e:
         print(f"[warn] could not check stats: {e}")
 
@@ -251,14 +255,14 @@ def main() -> int:
     written = []
     for idx, (label, question) in enumerate(ASSIGNMENT_EXAMPLES, 1):
         results = {}
-        for cfg_key in ("A", "B"):
+        for cfg_key in active_configs:
             results[cfg_key] = run_one(cfg_key, question)
             tu = results[cfg_key]["token_usage"]
             if tu:
                 grand_total["prompt"] += tu.get("prompt_tokens", 0) or 0
                 grand_total["completion"] += tu.get("completion_tokens", 0) or 0
-        render_side_by_side(label, question, results)
-        md_path = write_markdown(idx, label, question, results)
+        render_side_by_side(label, question, results, active_configs)
+        md_path = write_markdown(idx, label, question, results, active_configs)
         written.append(md_path)
         print(f"[eval] wrote {md_path}")
 

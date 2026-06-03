@@ -3,6 +3,9 @@
 .env.local
 .env.*.local
 
+# project memory for Claude sessions only (not for git)
+CLAUDE.md
+
 # data (large CSV, don't commit)
 data/
 *.csv

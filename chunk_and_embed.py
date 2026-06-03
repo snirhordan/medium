@@ -41,6 +41,8 @@ from pinecone import Pinecone
 CONFIGS = {
     "A": {"chunk_size": 512,  "overlap_ratio": 0.15, "namespace": "cfg-a"},
     "B": {"chunk_size": 1024, "overlap_ratio": 0.20, "namespace": "cfg-b"},
+    "C": {"chunk_size": 256,  "overlap_ratio": 0.10, "namespace": "cfg-c"},
+    "D": {"chunk_size": 1024, "overlap_ratio": 0.30, "namespace": "cfg-d"},
 }
 EMBED_BATCH = 96
 UPSERT_BATCH = 100
