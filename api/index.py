@@ -16,10 +16,12 @@ loaded via python-dotenv.
 """
 
 import os
+import traceback
 from typing import Optional
 
 from dotenv import load_dotenv
 from fastapi import FastAPI
+from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 
 from langchain_openai import ChatOpenAI, OpenAIEmbeddings
@@ -123,8 +125,39 @@ class PromptRequest(BaseModel):
     question: str
 
 
+@app.get("/api/diag")
+def diag():
+    """Diagnostic: which env vars are visible to the function (booleans only — no values)."""
+    required = [
+        "EMBEDDING_MODEL", "CHAT_MODEL",
+        "COURSE_OPENAI_API_KEY", "COURSE_OPENAI_BASE_URL",
+        "PINECONE_API_KEY", "PINECONE_INDEX_NAME",
+    ]
+    import sys
+    return {
+        "env_present": {k: (k in os.environ and bool(os.environ[k])) for k in required},
+        "python_version": sys.version,
+        "vectorstore_initialised": _vectorstore is not None,
+        "chat_initialised": _chat is not None,
+    }
+
+
 @app.post("/api/prompt")
 def prompt(req: PromptRequest):
+    try:
+        return _prompt_impl(req)
+    except Exception as exc:
+        return JSONResponse(
+            status_code=500,
+            content={
+                "error": type(exc).__name__,
+                "message": str(exc),
+                "traceback": traceback.format_exc().splitlines()[-12:],
+            },
+        )
+
+
+def _prompt_impl(req: PromptRequest):
     vs = _vectorstore_singleton()
     hits = vs.similarity_search_with_score(req.question, k=TOP_K)
 
