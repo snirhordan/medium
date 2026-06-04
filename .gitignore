@@ -2,6 +2,7 @@
 .env
 .env.local
 .env.*.local
+vercel.env
 
 # project memory for Claude sessions only (not for git)
 CLAUDE.md
